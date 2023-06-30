@@ -2,7 +2,7 @@ import { plannerColumns } from "configs/PlannerConfig";
 import React, {useRef} from "react";
 import { useDrop } from 'react-dnd';
 
-const Board = ({ children, image, boardStyles, importBtn }) => {
+const Board = ({ children, image, boardStyles, importBtn, idDiv }) => {
     const [{ isOver, canDrop }, drop] = useDrop({
         accept: "Our first type",
         drop: () => ({ image: image }),
@@ -27,17 +27,9 @@ const Board = ({ children, image, boardStyles, importBtn }) => {
         <>
             <div 
                 ref={drop}
-                style={boardStyles}>
+                style={boardStyles}
+                id={idDiv?'divToPrint':''}>
                     {children}
-                    {
-                        importBtn   
-                        ?
-                        <div style={{display:'flex', justifyContent: 'flex-end', alignContent: 'center'}}>
-                            <button>Import</button>
-                        </div>
-                        :
-                            <></>
-                    }
             </div>
         </>
     );

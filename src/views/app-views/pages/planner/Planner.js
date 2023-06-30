@@ -2,6 +2,8 @@ import React, {useState} from "react";
 import Board from './Board';
 import { Table } from './Table';
 import { plannerColumns, tables } from "configs/PlannerConfig";
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
 
 const Planner = () => {
     const tableStyles = {
@@ -46,7 +48,6 @@ const Planner = () => {
             .map((item, index) => (
                 <Table
                     key={item.id}
-                    title={item.title}
                     image={item.image}
                     currentColumnName={item.column}
                     setItems={setItems}
@@ -56,14 +57,29 @@ const Planner = () => {
             ));
         };
 
+        const handleSave = () => {
+            const input = document.getElementById('divToPrint');
+            html2canvas(input)
+                .then((canvas) => {
+                    const imgData = canvas.toDataURL('image/png');
+                    const pdf = new jsPDF();
+                    pdf.addImage(imgData, 'JPEG', 0, 0);
+            // pdf.output('dataurlnewwindow');
+                    pdf.save("download.pdf");
+                });
+        }
+
     const { OPTIONS, SEATING_CHARTS } = plannerColumns;
     return (
         <>
             <Board image={OPTIONS} boardStyles={tableStyles}>
                 {returnItemsForColumn(OPTIONS)}
             </Board>
-            <Board image={SEATING_CHARTS} boardStyles={boardStyles} importBtn={true}>
+            <Board image={SEATING_CHARTS} boardStyles={boardStyles} idDiv={true}>
                 {returnItemsForColumn(SEATING_CHARTS)}
+                <div style={{display:'flex', justifyContent: 'flex-end', alignContent: 'center'}}>
+                    <button onClick={handleSave}>Save</button>
+                </div>
             </Board>
         </>
     );

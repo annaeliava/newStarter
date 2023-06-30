@@ -14,7 +14,6 @@ export const Table = ({
 	const styles = {
 		display: 'flex', 
 		flexDirection: 'column', 
-		justifyContent: 'space-between',
 		paddingTop: 10,
 		paddingRight: 10,
 		paddingLeft: 10,
@@ -107,7 +106,6 @@ export const Table = ({
 		<>
 			<div style={styles} ref={ref}>
 				<img src={image} style={{ width: 100, cursor: 'pointer'}}/>
-				<div>{title}</div>
 			</div>
 		</>
 	)
